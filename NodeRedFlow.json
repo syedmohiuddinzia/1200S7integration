@@ -1,0 +1,23 @@
+[
+    {
+        "id": "d793590fd90a63ed",
+        "type": "function",
+        "z": "0c848af71d66397e",
+        "name": "function",
+        "func": "// Extract temperature & humidity\nlet temp = msg.payload.temperature;\nlet hum = msg.payload.humidity;\n\n// Build nested timestamp path\nlet now = new Date();\nlet year = now.getFullYear();\nlet month = String(now.getMonth() + 1).padStart(2, '0');\nlet day = String(now.getDate()).padStart(2, '0');\nlet hour = String(now.getHours()).padStart(2, '0');\nlet minute = String(now.getMinutes()).padStart(2, '0');\nlet second = String(now.getSeconds()).padStart(2, '0');\n\n// Set the Firebase path\nmsg.firebasePath = `RS485_data/${year}/${month}/${day}/${hour}/${minute}/${second}`;\n\n// Set payload with temperature and humidity\nmsg.payload = {\n    [msg.firebasePath]:{\n    temperature: temp,\n    humidity: hum\n    }\n};\n\n// Use \"set\" to store the value at this path (overwrites if same timestamp)\nmsg.method = \"update\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 200,
+        "y": 280,
+        "wires": [
+            [
+                "71d35f1b1c12946f",
+                "97642abc37a2eb14"
+            ]
+        ]
+    }
+]
